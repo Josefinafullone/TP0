@@ -17,13 +17,19 @@ public:
 	Complejo const &operator= (Complejo const &z1);	//copia el valor de una variable compleja.
 	friend Complejo const operator+ (Complejo const &z1, Complejo const &z2);	//Suma dos valores y los asigna a una variable Lvalue POR QUE PONGO FRIEND???
 	friend Complejo const operator+ (Complejo const &z1, double const Q);	//Suma dos valores y los asigna a una variable Lvalue POR QUE PONGO FRIEND???
+	friend Complejo const operator+(double,Complejo const &);
 	friend Complejo const operator- (Complejo const &z1, Complejo const &z2);	//Suma dos valores y los asigna a una variable Lvalue POR QUE PONGO FRIEND???
 	friend Complejo const operator- (Complejo const &z1, double const Q);	//Suma dos valores y los asigna a una variable Lvalue POR QUE PONGO FRIEND???
+	friend Complejo const operator-(double,Complejo const &);
 	friend Complejo const operator* (Complejo const &z1, Complejo const &z2);	//Suma dos valores y los asigna a una variable Lvalue POR QUE PONGO FRIEND???
 	friend Complejo const operator* (Complejo const &z1, double const Q);	//Suma dos valores y los asigna a una variable Lvalue POR QUE PONGO FRIEND???
 	friend Complejo const operator* (double const Q, Complejo const &z1);	//Suma dos valores y los asigna a una variable Lvalue POR QUE PONGO FRIEND???
 	friend Complejo const operator/ (Complejo const &z1, Complejo const &z2);	//Suma dos valores y los asigna a una variable Lvalue POR QUE PONGO FRIEND???
 	friend Complejo const operator/ (Complejo const &z1, double const Q);	//Suma dos valores y los asigna a una variable Lvalue POR QUE PONGO FRIEND???
 	friend Complejo const operator/ (double const Q, Complejo const &z1);	//Suma dos valores y los asigna a una variable Lvalue POR QUE PONGO FRIEND???
-	~Complejo();								//Destruye un complejo
+	~Complejo();//Destruye un complejo
+	Complejo const & operator*=(Complejo const &);
+	Complejo const & operator+=(Complejo const &);
+	Complejo const & operator-=(Complejo const &);
+	
 };
