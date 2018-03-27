@@ -51,6 +51,12 @@ Complejo const operator+(Complejo const &x, double const i){
 	return z;
 }
 
+Complejo const operator+(double const b,Complejo const & a)
+{
+	Complejo d(b + a.GetRe(), a.GetIm());
+	return d;
+}
+
 Complejo const operator-(Complejo const &x, Complejo const &y){
 	Complejo z(x.GetRe() - y.GetRe(), x.GetIm() - y.GetIm());
 	return z;
@@ -59,6 +65,12 @@ Complejo const operator-(Complejo const &x, Complejo const &y){
 Complejo const operator-(Complejo const &x, double const i){
 	Complejo z(x.GetRe() - i, x.GetIm());
 	return z;
+}
+
+Complejo const operator-(double const b,Complejo const & a)
+{
+	Complejo d(b - a.GetRe(), -a.GetIm());
+	return d;
 }
 
 Complejo const operator*(Complejo const &z1, Complejo const &z2){
@@ -106,4 +118,34 @@ double Complejo::abs() const{
 
 double Complejo::abs2 () const{
 	return ((_Re*_Re)+(_Im+_Im));
+}
+
+Complejo const & Complejo::operator*=(Complejo const &c)
+{
+	double Real,Imag; 
+	Real = Re_ * c.Re_- Im_ * c.Im_;
+	Imag = Re_ * c.Im_+ Im_ * c.Re_;
+	Re_ = Real;
+	Im_ = Imag;
+	return *this;
+}
+
+Complejo const & Complejo::operator+=(Complejo const &c)
+{
+	double Real,Imag;
+	Real = Re_ + c.Re_;
+	Imag = Imag + c.Im_;
+	Re_ = Real;
+	Im_ = Imag;
+	return *this;
+}
+
+Complejo const & Complejo::operator-=(Complejo const &c)
+{
+	double Real,Imag;
+	Real = Re_ - c.Re_;
+	Imag = Imag - c.Im_;
+	Re_ = Real;
+	Im_ = Imag;
+	return *this;
 }
