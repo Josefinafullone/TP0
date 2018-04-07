@@ -1,109 +1,211 @@
-#include <iostream>
-#include "Complejo.h"
-#include <string>
-#include <cmath>
+#include"Complejo.h"
+#include<iostream>
+#include<string.h>
+#include<cmath>
+
 using namespace std;
 
+//CONSTRUCTORES
 
-//CONSTRUCTORES y DESTRUCTORES:
-Complejo::Complejo(){
-	_Re=0;
-	_Im=0;
+Complejo::Complejo()
+{
+	Re_=0.0;
+	Im_=0.0;
 }
-Complejo::Complejo(double const R, double const I){
-	_Re=R;
-	_Im=I;
+
+Complejo::Complejo(double const real,double const imaginario)
+{
+	Re_=real;
+	Im_=imaginario;
 }
-Complejo::Complejo(Complejo const &z1){
-	_Re=z1.GetRe();
-	_Im=z1.GetIm();
+
+Complejo::Complejo(const Complejo & c)
+{
+	Re_=c.Re_;
+	Im_=c.Im_;
 }
+
+Complejo const & Complejo::operator=(Complejo const & c)
+{
+	Re_=c.GetRe();
+	Im_=c.GetIm();
+	return *this;
+}
+
+//
+
+double Complejo::GetRe()const
+{
+	return Re_;
+}
+
+double Complejo::GetIm()const
+{
+	return Im_;
+}
+
+void Complejo::print()
+{
+	cout <<'('<< Re_ << ',' << Im_ << ')'<< endl;
+}
+
 Complejo::~Complejo(){}
 
 
-//OUTPUTS
-void Complejo::print(){
-	cout<<'('<<_Re<<','<<_Im<<')'<<endl;
+//OPERADORES
+
+Complejo const operator+(Complejo const & a,Complejo const & b)
+{
+	Complejo d(a.GetRe() + b.GetRe(),a.GetIm() + b.GetIm());
+	return d;
 }
 
-double Complejo::GetRe() const{
-	return _Re;
+Complejo const operator+(Complejo const & a,double b)
+{
+		Complejo d(a.GetRe() + b,a.GetIm());
+		return d;
 }
 
-double Complejo::GetIm() const{
-	return _Im;
+Complejo const operator+(double const b,Complejo const & a)
+{
+	Complejo d(b + a.GetRe(), a.GetIm());
+	return d;
 }
 
-//OPERATIONS
-Complejo const &Complejo::operator=(Complejo const &z){
- 	_Re=z.GetRe();
- 	_Im=z.GetIm();
- 	return *this;
+Complejo const operator-(Complejo const & a,Complejo const & b)
+{
+	Complejo d(a.GetRe() - b.GetRe(),a.GetIm() - b.GetIm());
+	return d;
 }
 
-Complejo const operator+(Complejo const &x, Complejo const &y){
-	Complejo z(x.GetRe() + y.GetRe(), x.GetIm() + y.GetIm());
-	return z;
+Complejo const operator-(Complejo const & a,double b)
+{
+		Complejo d(a.GetRe() - b,a.GetIm());
+		return d;
 }
 
-Complejo const operator+(Complejo const &x, double const i){
-	Complejo z(x.GetRe() + i, x.GetIm());
-	return z;
+Complejo const operator-(double const b,Complejo const & a)
+{
+	Complejo d(b - a.GetRe(), -a.GetIm());
+	return d;
 }
 
-Complejo const operator-(Complejo const &x, Complejo const &y){
-	Complejo z(x.GetRe() - y.GetRe(), x.GetIm() - y.GetIm());
-	return z;
+
+Complejo const operator*(Complejo const & a,Complejo const & b)
+{
+	return Complejo(a.GetRe()*b.GetRe()-a.GetIm()*b.GetIm(),a.GetRe()*b.GetIm()+a.GetIm()*b.GetRe());
 }
 
-Complejo const operator-(Complejo const &x, double const i){
-	Complejo z(x.GetRe() - i, x.GetIm());
-	return z;
+Complejo const operator*(Complejo const & a,double const b)
+{
+	return Complejo(a.GetRe()*b,a.GetIm()*b);
 }
 
-Complejo const operator*(Complejo const &z1, Complejo const &z2){
-	Complejo z(z1.GetRe() * z2.GetRe()-z1.GetIm() * z2.GetIm() , z1.GetRe()*z2.GetIm()+z1.GetIm()*z2.GetRe());
-	return z;
+Complejo const operator*(double const a,Complejo const & c)
+{
+	return Complejo(a*c.GetRe(),a*c.GetIm());
+} 
+
+Complejo const operator/(Complejo const & a,Complejo const & b)
+{
+	return ((a * b.Conjugado()) / (b.Abs_Cuadrado()));
 }
 
-Complejo const operator*(Complejo const &z1, double const Q){
-	Complejo z(z1.GetRe() * Q , z1.GetIm()*Q);
-	return z;
+Complejo const operator/(Complejo const & a,double const b)
+{
+	if(b!=0)
+	{
+		return Complejo(a.GetRe()/b,a.GetIm()/b);
+	}
+	else Complejo(a);
 }
 
-Complejo const operator*(double const Q, Complejo const &z1){
-	Complejo z(z1.GetRe() * Q , z1.GetIm()*Q);
-	return z;
+Complejo const operator/(double const b,Complejo const & a)
+{
+	
+	return b*a.Conjugado()/a.Abs_Cuadrado();
+	
 }
 
-Complejo const &Complejo::Conjugar(){
- 	_Im*=-1;
- 	return *this;
+Complejo const & Complejo:: Conjugar ()
+{
+	Im_*= -1;
+	return *this;
 }
 
-Complejo const Complejo::Conjugado()const{
-	return Complejo(_Re,-(_Im));
+Complejo const Complejo:: Conjugado() const
+{
+		return Complejo(Re_,-Im_);
 }
 
-Complejo const operator/(Complejo const &z1, double const Q){
-	if(Q!=0){
-	Complejo z(z1.GetRe() / Q , z1.GetIm()/Q);
-	return z;
-	} else return z1;
+double Complejo::Abs_Cuadrado()const
+{
+	return (Re_ * Re_ + Im_ * Im_);
 }
 
-Complejo const operator/(Complejo const &z1, Complejo const &z2){ 
-	return (z1*z2.Conjugado())/z2.abs2();
+double Complejo::Abs()const
+{
+	return sqrt(Re_ * Re_ + Im_ * Im_);
 }
 
-Complejo const operator/(double const Q, Complejo const &z2){ 
-	return (Q*z2.Conjugado())/z2.abs2();
+
+
+Complejo const & Complejo::operator*=(Complejo const &c)
+{
+	double Real,Imag; 
+	Real = Re_ * c.Re_- Im_ * c.Im_;
+	Imag = Re_ * c.Im_+ Im_ * c.Re_;
+	Re_ = Real;
+	Im_ = Imag;
+	return *this;
 }
 
-double Complejo::abs() const{
-	return sqrt((_Re*_Re)+(_Im+_Im));
+Complejo const & Complejo::operator+=(Complejo const &c)
+{
+	double Real,Imag;
+	Real = Re_ + c.Re_;
+	Imag = Imag + c.Im_;
+	Re_ = Real;
+	Im_ = Imag;
+	return *this;
 }
 
-double Complejo::abs2 () const{
-	return ((_Re*_Re)+(_Im+_Im));
+Complejo const & Complejo::operator-=(Complejo const &c)
+{
+	double Real,Imag;
+	Real = Re_ - c.Re_;
+	Imag = Imag - c.Im_;
+	Re_ = Real;
+	Im_ = Imag;
+	return *this;
+}
+
+ istream & operator >> (istream & is, Complejo &c)
+{
+	bool good=false;
+	bool bad=false;
+	double re=0,im=0;
+	char ch=0;
+	if(is >> ch && ch=='(')
+	{
+		if(is >> re && is >>ch && ch==',' && is>>im && is>>ch && ch==')')
+		{
+			good=true;
+		}
+		else	bad=true;
+	}
+	else	if(is.good())
+			{
+				is.putback(ch);					//vuelve al caracter anterior. Aca tendría un loop infinito.
+				if(is >> re) good=true;
+				else bad=true;
+			}
+	if(good)
+	{
+		c.Re_=re;
+		c.Im_=im;
+	}
+	if(bad)
+		is.clear(ios::badbit);
+	return is;
 }
